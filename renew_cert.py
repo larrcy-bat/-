@@ -17,10 +17,10 @@ if __name__ == "__main__":
     run_cmd("curl https://get.acme.sh | sh")
     acme = "/home/runner/.acme.sh/acme.sh"
 
-    # 注册邮箱（必须！ZeroSSL要求）
+    # 注册邮箱
     run_cmd(f"{acme} --register-account -m test@example.com")
 
-    # 申请证书
+    # 只申请主域名，兼容 HTTP 验证
     domains = ["larrcy.us.ci", "wlk.us.ci"]
 
     for domain in domains:
@@ -31,9 +31,8 @@ if __name__ == "__main__":
         run_cmd(f"""
         {acme} --issue \
         -d {domain} \
-        -d *.{domain} \
         --standalone \
         --force
         """)
 
-    print("\n🎉🎉🎉 全部成功！自动续期已开启！")
+    print("\n🎉🎉🎉 证书申请全部成功！自动续期已配置！")
