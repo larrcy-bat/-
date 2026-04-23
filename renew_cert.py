@@ -14,18 +14,14 @@ def run_cmd(cmd):
     return result.stdout
 
 if __name__ == "__main__":
-    # 安装 acme.sh
     run_cmd("curl https://get.acme.sh | sh")
     acme = "/home/runner/.acme.sh/acme.sh"
 
-    # 使用 ZeroSSL，不需要任何 DNS API
-    run_cmd(f"{acme} --set-default-ca --server zerossl")
+    # 注册邮箱（必须！ZeroSSL要求）
+    run_cmd(f"{acme} --register-account -m test@example.com")
 
-    # 你的两个域名
-    domains = [
-        "larrcy.us.ci",
-        "wlk.us.ci"
-    ]
+    # 申请证书
+    domains = ["larrcy.us.ci", "wlk.us.ci"]
 
     for domain in domains:
         print(f"\n==================================")
@@ -40,4 +36,4 @@ if __name__ == "__main__":
         --force
         """)
 
-    print("\n🎉🎉🎉 所有证书申请成功！自动续期已开启！")
+    print("\n🎉🎉🎉 全部成功！自动续期已开启！")
