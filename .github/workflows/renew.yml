@@ -1,0 +1,24 @@
+name: Auto Renew SSL Certificates
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 */60 * *'
+
+jobs:
+  renew:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run renew script
+        env:
+          DNSHE_API_KEY: ${{ secrets.DNSHE_API_KEY }}
+          DNSHE_API_SECRET: ${{ secrets.DNSHE_API_SECRET }}
+        run: python renew_cert.py
